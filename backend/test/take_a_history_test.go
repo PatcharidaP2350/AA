@@ -40,6 +40,23 @@ func TestAll(t *testing.T){
 	})
 }
 
+func TestEmailIsRequired(t *testing.T){
+	g:=NewGomegaWithT(t)
+	t.Run(`Email is required`,func(t *testing.T){
+		takeahistory:=entity.TakeAHistory{
+			Weight: 55.0,
+			PhoneNumber: "1002232151",
+
+		}
+
+		ok, err:=govalidator.ValidateStruct(takeahistory)
+
+		g.Expect(err).NotTo(BeNil())
+		g.Expect(ok).NotTo(BeTrue())
+
+		g.Expect(err.Error()).To(Equal(`Email is required`))
+	})
+}
 func TestEmail(t *testing.T){
 	g:=NewGomegaWithT(t)
 
@@ -58,22 +75,7 @@ func TestEmail(t *testing.T){
 	})
 }
 
-func TestEmailis(t *testing.T){
-	g:=NewGomegaWithT(t)
 
-	t.Run(`Email is required` ,func(t *testing.T){
-		takeahistory := entity.TakeAHistory{
-			Weight: 5.55,
-			PhoneNumber: "1233456890",
-		}
-		ok, err := govalidator.ValidateStruct(takeahistory)
-
-		g.Expect(err).NotTo(BeNil())
-		g.Expect(ok).NotTo(BeTrue())
-
-		g.Expect(err.Error()).To(Equal("Email is required"))
-	})
-}
 
 func TestPhoneNumber(t *testing.T){
 	g:=NewGomegaWithT(t)
